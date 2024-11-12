@@ -30,7 +30,7 @@ https://ollama.ai/library
 
 To see the project in action, install the required libraries with
 
-`pip install langchain langchain-community chromadb fastembed streamlit streamlit_chat `
+`pip install -r requirements.txt `
 
 and execute `streamlit run app/app.py`.
 
