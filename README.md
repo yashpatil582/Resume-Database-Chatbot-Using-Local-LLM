@@ -7,8 +7,8 @@
 This project provides a personalized solution for job applicants to analyze and enhance their resumes based on specific job descriptions. It features a chatbot that can answer questions about resume content and suggest optimizations for Applicant Tracking Systems (ATS). This tool helps candidates tailor their resumes for each application, ensuring alignment with the job description.
 
 ## Snapshots
-[Chat with Your Resume](./Snapshots/Screenshot%202024-11-11%20at%209.53.04 PM.png)
-[Enhance Your Resume](./Snapshots/Screenshot%202024-11-11%20at%209.53.17 PM.png)
+![Chat with Your Resume](./Snapshots/Screenshot%202024-11-11%20at%209.53.04 PM.png)
+![Enhance Your Resume](./Snapshots/Screenshot%202024-11-11%20at%209.53.17 PM.png)
 
 ## Technologies Used
 
