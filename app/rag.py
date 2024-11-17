@@ -50,18 +50,22 @@ Answer:"""
 
         # Prompt template for enhancing the resume
         self.enhance_prompt = PromptTemplate(
-            input_variables=["resume", "job_description"],
-            template="""
+    input_variables=["resume", "job_description"],
+    template="""
 You are an expert career consultant specializing in resume optimization for Applicant Tracking Systems (ATS).
 
 TASK:
 - Analyze the candidate's resume.
 - Compare it with the job description.
 - Identify missing skills, keywords, and experiences.
-- Provide specific, actionable recommendations to improve the resume and increase its ATS score.
+- Add relevant skills, certifications, tools, and technologies mentioned in the job description but absent in the resume.
+- Update the experience section to reflect relevant projects and tasks aligned with the job description.
+- Only add certifications and completed courses to the "Certifications" section.
+- Avoid duplicating content already present in the resume.
+- Format the resume in a clear, ATS-friendly layout.
 
-FORMAT:
-Provide the recommendations in a numbered list.
+OUTPUT:
+Provide the updated resume at the end.
 
 Job Description:
 {job_description}
@@ -69,9 +73,9 @@ Job Description:
 Candidate's Resume:
 {resume}
 
-Recommendations:
+Updated Resume:
 """
-        )
+)
         logging.info("Enhance resume prompt template initialized.")
 
     def ingest(self, pdf_file_path: str):
@@ -149,23 +153,30 @@ Recommendations:
         """
         Enhances the resume based on the provided job description.
         """
-        # Create the prompt input
+        logging.info("Starting resume enhancement process.")
+
+        # Create the prompt input for RAG model
         prompt_input = self.enhance_prompt.format(
             resume=resume_text,
             job_description=job_description
         )
 
-        # Log the prompt for debugging
-        logging.info(f"Enhance Resume Prompt:\n{prompt_input}")
+        logging.info(f"Enhance Resume Prompt Created:\n{prompt_input}")
 
         # Generate the recommendations using the model
-        response = self.model.generate([prompt_input])  # Wrap prompt_input in a list
+        try:
+            response = self.model.generate([prompt_input])  # Wrap prompt_input in a list
 
-        # Extract the generated text from the response
-        recommendations = response.generations[0][0].text  # Access the first generation's text
+            # Extract the generated text from the response
+            updated_resume = response.generations[0][0].text.strip()  # Access the first generation's text
 
-        logging.info(f"Generated enhancement response:\n{recommendations}")
-        return recommendations  # Return the plain text recommendations
+            # Log the enhanced resume
+            logging.info(f"Enhanced Resume Generated:\n{updated_resume}")
+            
+            return updated_resume
+        except Exception as e:
+            logging.error(f"Error in enhancing resume: {str(e)}")
+            return "Failed to enhance the resume. Please check the logs for details."
 
 
 
